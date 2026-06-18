@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Atlas Energy Capital — Flex-Cash-Advance Application</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<!-- Netlify hidden detection form (required for AJAX submissions) -->
+<form name="flex-cash-advance" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <!-- Section 1: Business Info -->
+  <input name="bot-field">
+  <input name="legal_name"><input name="dba"><input name="physical_address">
+  <input name="city"><input name="state"><input name="zip">
+  <input name="telephone"><input name="fax"><input name="fed_tax_id">
+  <input name="tax_liens"><input name="date_started"><input name="length_ownership">
+  <input name="seasonal"><input name="num_locations"><input name="website">
+  <input name="email"><input name="for_sale"><input name="bankruptcy">
+  <input name="entity_type"><input name="business_type"><input name="product_service">
+  <!-- Section 2: Owner -->
+  <input name="owner1_name"><input name="owner1_title"><input name="owner1_pct">
+  <input name="owner1_address"><input name="owner1_city"><input name="owner1_state">
+  <input name="owner1_zip"><input name="owner1_ssn"><input name="owner1_dob">
+  <input name="owner1_home_phone"><input name="owner1_cell">
+  <!-- Section 3: Partner -->
+  <input name="owner2_name"><input name="owner2_title"><input name="owner2_pct">
+  <input name="owner2_address"><input name="owner2_city"><input name="owner2_state">
+  <input name="owner2_zip"><input name="owner2_ssn"><input name="owner2_dob">
+  <input name="owner2_home_phone"><input name="owner2_cell">
+  <!-- Section 4: Property -->
+  <input name="landlord_bank"><input name="landlord_contact"><input name="landlord_phone">
+  <input name="lease_remaining">
+  <!-- Section 5: Trade References -->
+  <input name="ref1_name"><input name="ref1_contact"><input name="ref1_phone">
+  <input name="ref2_name"><input name="ref2_contact"><input name="ref2_phone">
+  <input name="ref3_name"><input name="ref3_contact"><input name="ref3_phone">
+  <!-- Section 6: Processing / Request -->
+  <input name="cc_terminal"><input name="num_terminals"><input name="monthly_volume">
+  <input name="cc_processor"><input name="time_processor">
+  <input name="accepts_visa"><input name="accepts_amex"><input name="accepts_discover">
+  <input name="accepts_debit"><input name="accepts_ebt">
+  <input name="requested_amount"><input name="prior_advance_company"><input name="prior_balance">
+  <input name="funding_type">
+  <!-- Section 7: Authorization -->
+  <input name="owner1_print_name"><input name="owner1_signature"><input name="owner1_date">
+  <input name="owner2_print_name"><input name="owner2_signature"><input name="owner2_date">
+  <input name="auth_business_name"><input name="auth_business_address"><input name="auth_business_phone">
+</form>
+
+<style>
+:root {
+  --navy: #0a1628;
+  --navy2: #0d1e3a;
+  --navy3: #0f2545;
+  --gold: #c9a84c;
+  --gold-light: #e8c96a;
+  --gold-dim: rgba(201,168,76,0.18);
+  --white: #fff;
+  --muted: rgba(255,255,255,0.55);
+  --red: #e05555;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',Arial,sans-serif;background:var(--navy);color:var(--white);min-height:100vh;}
+
+/* NAV */
+nav{background:var(--navy2);border-bottom:2px solid var(--gold);padding:0 5vw;display:flex;align-items:center;justify-content:space-between;height:66px;position:sticky;top:0;z-index:100;}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;}
+.nav-logo-name{font-size:20px;font-weight:900;color:var(--gold);letter-spacing:0.06em;}
+.nav-logo-sub{font-size:10px;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;}
+.nav-tag{font-size:11px;font-weight:700;color:var(--navy);background:var(--gold);padding:5px 14px;border-radius:20px;letter-spacing:0.06em;}
+
+/* HERO BANNER */
+.hero-banner{background:linear-gradient(135deg,var(--navy2),var(--navy3));border-bottom:1px solid var(--gold-dim);padding:32px 5vw;}
+.hero-inner{max-width:860px;margin:0 auto;}
+.hero-title{font-size:clamp(22px,3vw,30px);font-weight:900;color:var(--white);margin-bottom:6px;}
+.hero-title span{color:var(--gold);}
+.hero-sub{font-size:14px;color:var(--muted);line-height:1.6;}
+.hero-meta{margin-top:14px;display:flex;gap:20px;flex-wrap:wrap;}
+.meta-item{font-size:12px;color:rgba(255,255,255,0.7);display:flex;align-items:center;gap:6px;}
+.meta-item::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;}
+
+/* PROGRESS STEPS */
+.progress-bar-wrap{background:var(--navy2);border-bottom:1px solid var(--gold-dim);padding:16px 5vw;}
+.progress-inner{max-width:860px;margin:0 auto;}
+.steps-row{display:flex;gap:0;overflow-x:auto;}
+.step-tab{flex:1;min-width:100px;padding:8px 4px;text-align:center;cursor:pointer;border-bottom:3px solid transparent;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:0.04em;text-transform:uppercase;white-space:nowrap;transition:all 0.2s;}
+.step-tab.active{border-bottom-color:var(--gold);color:var(--gold);}
+.step-tab.done{border-bottom-color:rgba(201,168,76,0.4);color:rgba(201,168,76,0.7);}
+.step-tab .step-num{display:inline-block;width:20px;height:20px;border-radius:50%;border:1.5px solid currentColor;font-size:10px;line-height:18px;margin-right:5px;text-align:center;}
+
+/* MAIN */
+main{max-width:860px;margin:0 auto;padding:32px 5vw 60px;}
+
+/* SECTION CARDS */
+.form-section{display:none;}
+.form-section.active{display:block;}
+.section-heading{margin-bottom:24px;}
+.section-heading h2{font-size:18px;font-weight:800;color:var(--white);margin-bottom:4px;}
+.section-heading .bilingual{font-size:12px;color:var(--gold);font-style:italic;}
+.section-heading .desc{font-size:13px;color:var(--muted);margin-top:6px;line-height:1.5;}
+
+/* FIELD GROUPS */
+.card{background:var(--navy2);border:1px solid var(--gold-dim);border-radius:10px;padding:24px;margin-bottom:20px;}
+.card-title{font-size:12px;font-weight:700;color:var(--gold);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid var(--gold-dim);}
+
+.field-grid{display:grid;gap:14px;}
+.col-1{grid-template-columns:1fr;}
+.col-2{grid-template-columns:1fr 1fr;}
+.col-3{grid-template-columns:1fr 1fr 1fr;}
+.col-4{grid-template-columns:1fr 1fr 1fr 1fr;}
+@media(max-width:600px){.col-2,.col-3,.col-4{grid-template-columns:1fr;}}
+@media(max-width:768px){.col-3{grid-template-columns:1fr 1fr;}.col-4{grid-template-columns:1fr 1fr;}}
+
+.field{display:flex;flex-direction:column;gap:4px;}
+.field label{font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;}
+.field label .bi{font-style:italic;color:rgba(255,255,255,0.3);font-weight:400;text-transform:none;letter-spacing:0;}
+.field label .req{color:var(--red);margin-left:2px;}
+.field input,.field select,.field textarea{
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(201,168,76,0.22);
+  border-radius:6px;padding:10px 12px;
+  color:var(--white);font-size:13px;font-family:inherit;outline:none;
+  transition:border-color 0.2s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--gold);}
+.field input::placeholder{color:rgba(255,255,255,0.2);}
+.field select option{background:var(--navy2);}
+.field textarea{resize:vertical;min-height:80px;}
+.field .hint{font-size:10px;color:rgba(255,255,255,0.3);margin-top:2px;}
+
+/* RADIO / CHECKBOX */
+.radio-row{display:flex;gap:8px;flex-wrap:wrap;}
+.radio-btn{
+  background:rgba(255,255,255,0.04);border:1px solid rgba(201,168,76,0.2);
+  border-radius:5px;padding:8px 14px;font-size:12px;font-weight:600;
+  cursor:pointer;color:var(--muted);transition:all 0.15s;user-select:none;
+}
+.radio-btn.sel{background:rgba(201,168,76,0.12);border-color:var(--gold);color:var(--gold);}
+.checkbox-row{display:flex;gap:8px;flex-wrap:wrap;}
+.cb-item{display:flex;align-items:center;gap:6px;cursor:pointer;user-select:none;}
+.cb-item input[type=checkbox]{accent-color:var(--gold);width:16px;height:16px;}
+.cb-item span{font-size:13px;color:rgba(255,255,255,0.8);}
+
+/* LEGAL TEXT */
+.legal-box{background:rgba(255,255,255,0.03);border:1px solid rgba(201,168,76,0.12);border-radius:8px;padding:16px;font-size:11px;color:rgba(255,255,255,0.45);line-height:1.7;margin-bottom:20px;}
+.legal-box p+p{margin-top:8px;}
+.legal-box strong{color:rgba(255,255,255,0.65);}
+
+/* SIGNATURE AREA */
+.sig-area{
+  border:1px dashed rgba(201,168,76,0.35);border-radius:6px;
+  padding:12px;background:rgba(255,255,255,0.03);
+}
+.sig-canvas{width:100%;height:120px;border:none;display:block;cursor:crosshair;background:rgba(0,0,0,0.2);border-radius:4px;}
+.sig-controls{display:flex;gap:8px;margin-top:8px;}
+.sig-clear{background:transparent;border:1px solid rgba(201,168,76,0.3);color:var(--muted);font-size:11px;padding:5px 12px;border-radius:4px;cursor:pointer;font-family:inherit;}
+
+/* NAV BUTTONS */
+.form-nav{display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;}
+.btn-back{flex:1;min-width:120px;background:transparent;border:1px solid rgba(201,168,76,0.3);color:var(--muted);padding:13px;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s;}
+.btn-back:hover{border-color:var(--gold);color:var(--white);}
+.btn-next{flex:2;min-width:180px;background:var(--gold);border:none;color:var(--navy);padding:14px;border-radius:6px;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;transition:background 0.2s;}
+.btn-next:hover{background:var(--gold-light);}
+.btn-submit{flex:2;min-width:180px;background:linear-gradient(135deg,#b8922e,var(--gold-light) 50%,#b8922e);border:none;color:var(--navy);padding:14px;border-radius:6px;font-size:15px;font-weight:900;cursor:pointer;font-family:inherit;letter-spacing:0.04em;text-transform:uppercase;}
+
+/* SUCCESS */
+.success-wrap{text-align:center;padding:48px 20px;display:none;}
+.success-icon{width:80px;height:80px;border-radius:50%;border:3px solid var(--gold);background:rgba(201,168,76,0.1);display:flex;align-items:center;justify-content:center;font-size:36px;color:var(--gold);margin:0 auto 20px;}
+.success-h{font-size:26px;font-weight:900;color:var(--white);margin-bottom:10px;}
+.success-p{font-size:14px;color:var(--muted);line-height:1.7;max-width:480px;margin:0 auto;}
+.success-ref{margin:20px auto;padding:14px;background:rgba(201,168,76,0.08);border:1px solid var(--gold-dim);border-radius:8px;font-size:14px;color:var(--gold);font-weight:700;max-width:360px;}
+.success-next{margin-top:24px;font-size:13px;color:var(--muted);line-height:1.6;}
+
+/* FOOTER */
+footer{background:#060e1c;border-top:1px solid var(--gold-dim);padding:20px 5vw;text-align:center;}
+footer p{font-size:11px;color:rgba(255,255,255,0.25);line-height:1.7;}
+footer a{color:var(--gold);text-decoration:none;}
+
+/* SPINNER */
+.spinner{display:none;width:20px;height:20px;border:2px solid rgba(10,22,40,0.3);border-top-color:var(--navy);border-radius:50%;animation:spin 0.6s linear infinite;margin:0 auto;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.submitting .spinner{display:inline-block;}
+.submitting .btn-text{display:none;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="https://www.AtlasEnergyCapital.com">
+    <svg width="40" height="40" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="30" cy="16" r="12" fill="#c9a84c"/>
+      <line x1="30" y1="1" x2="30" y2="5" stroke="#c9a84c" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="30" y1="27" x2="30" y2="32" stroke="#c9a84c" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="14" y1="16" x2="18" y2="16" stroke="#c9a84c" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="42" y1="16" x2="47" y2="16" stroke="#c9a84c" stroke-width="2.2" stroke-linecap="round"/>
+      <line x1="19" y1="5" x2="22" y2="8" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+      <line x1="38" y1="24" x2="41" y2="27" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+      <line x1="41" y1="5" x2="38" y2="8" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+      <line x1="22" y1="24" x2="19" y2="27" stroke="#c9a84c" stroke-width="2" stroke-linecap="round"/>
+      <circle cx="20" cy="30" r="3.8" fill="#c9a84c"/>
+      <rect x="17.5" y="33.5" width="5" height="8" rx="2" fill="#c9a84c"/>
+      <line x1="18" y1="35" x2="10" y2="28" stroke="#c9a84c" stroke-width="2.6" stroke-linecap="round"/>
+      <line x1="22.5" y1="35" x2="29" y2="31" stroke="#c9a84c" stroke-width="2.6" stroke-linecap="round"/>
+      <line x1="18.5" y1="41.5" x2="14" y2="51" stroke="#c9a84c" stroke-width="2.6" stroke-linecap="round"/>
+      <line x1="21.5" y1="41.5" x2="26" y2="51" stroke="#c9a84c" stroke-width="2.6" stroke-linecap="round"/>
+    </svg>
+    <div>
+      <div class="nav-logo-name">ATLAS</div>
+      <div class="nav-logo-sub">Energy Capital</div>
+    </div>
+  </a>
+  <div class="nav-tag">Flex-Cash-Advance Application</div>
+</nav>
+
+<!-- HERO -->
+<div class="hero-banner">
+  <div class="hero-inner">
+    <h1 class="hero-title">Flex-Cash-Advance <span>Application #31</span></h1>
+    <p class="hero-sub">Complete all sections below. Your information is encrypted and submitted securely to our underwriting team.</p>
+    <div class="hero-meta">
+      <div class="meta-item">No hard credit pull to apply</div>
+      <div class="meta-item">Decision within 24 hours</div>
+      <div class="meta-item">$2,000 – $1,000,000 available</div>
+      <div class="meta-item">888.828.2858</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-bar-wrap">
+  <div class="progress-inner">
+    <div class="steps-row" id="steps-row">
+      <div class="step-tab active" data-step="0"><span class="step-num">1</span>Business</div>
+      <div class="step-tab" data-step="1"><span class="step-num">2</span>Ownership</div>
+      <div class="step-tab" data-step="2"><span class="step-num">3</span>Property</div>
+      <div class="step-tab" data-step="3"><span class="step-num">4</span>References</div>
+      <div class="step-tab" data-step="4"><span class="step-num">5</span>Processing</div>
+      <div class="step-tab" data-step="5"><span class="step-num">6</span>Request</div>
+      <div class="step-tab" data-step="6"><span class="step-num">7</span>Authorization</div>
+    </div>
+  </div>
+</div>
+
+<main>
+  <form id="app-form" novalidate>
+    <input type="hidden" name="bot-field">
+    <input type="hidden" name="form-name" value="flex-cash-advance">
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 1: BUSINESS INFORMATION
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="form-section active" id="section-0">
+      <div class="section-heading">
+        <h2>Business Information</h2>
+        <div class="bilingual">Información Del Negocio</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Legal Identity / Identidad Legal</div>
+        <div class="field-grid col-2">
+          <div class="field">
+            <label>Legal / Corporate Name <span class="req">*</span><br><span class="bi">Nombre De El Negocio</span></label>
+            <input type="text" name="legal_name" placeholder="Full legal business name" required>
+          </div>
+          <div class="field">
+            <label>DBA / Doing Business As<br><span class="bi">Haciendo Negocio Como</span></label>
+            <input type="text" name="dba" placeholder="Trade name if different">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Physical Location / Ubicación Física</div>
+        <div class="field-grid col-1" style="gap:14px">
+          <div class="field">
+            <label>Street Address <span class="req">*</span><br><span class="bi">Dirección Del Negocio</span></label>
+            <input type="text" name="physical_address" placeholder="123 Main Street" required>
+          </div>
+          <div class="field-grid col-4">
+            <div class="field" style="grid-column:span 2">
+              <label>City / Ciudad <span class="req">*</span></label>
+              <input type="text" name="city" required>
+            </div>
+            <div class="field">
+              <label>State / Estado <span class="req">*</span></label>
+              <select name="state" required>
+                <option value="">--</option>
+                <option>AL</option><option>AK</option><option>AZ</option><option>AR</option>
+                <option>CA</option><option>CO</option><option>CT</option><option>DE</option>
+                <option>FL</option><option>GA</option><option>HI</option><option>ID</option>
+                <option>IL</option><option>IN</option><option>IA</option><option>KS</option>
+                <option>KY</option><option>LA</option><option>ME</option><option>MD</option>
+                <option>MA</option><option>MI</option><option>MN</option><option>MS</option>
+                <option>MO</option><option>MT</option><option>NE</option><option>NV</option>
+                <option>NH</option><option>NJ</option><option>NM</option><option>NY</option>
+                <option>NC</option><option>ND</option><option>OH</option><option>OK</option>
+                <option>OR</option><option>PA</option><option>RI</option><option>SC</option>
+                <option>SD</option><option>TN</option><option>TX</option><option>UT</option>
+                <option>VT</option><option>VA</option><option>WA</option><option>WV</option>
+                <option>WI</option><option>WY</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>ZIP / Código Postal <span class="req">*</span></label>
+              <input type="text" name="zip" placeholder="00000" maxlength="10" required>
+            </div>
+          </div>
+          <div class="field-grid col-2">
+            <div class="field">
+              <label>Phone / Teléfono <span class="req">*</span></label>
+              <input type="tel" name="telephone" placeholder="(555) 000-0000" required>
+            </div>
+            <div class="field">
+              <label>Fax</label>
+              <input type="tel" name="fax" placeholder="(555) 000-0000">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Business Details / Detalles Del Negocio</div>
+        <div class="field-grid col-2">
+          <div class="field">
+            <label>Federal Tax ID / EIN <span class="req">*</span><br><span class="bi">Número De Seguro Social Patronal</span></label>
+            <input type="text" name="fed_tax_id" placeholder="XX-XXXXXXX" required>
+          </div>
+          <div class="field">
+            <label>Federal/State Tax Liens?<br><span class="bi">¿Debe Taxes Al Gobierno?</span></label>
+            <div class="radio-row" id="tax_liens_row">
+              <div class="radio-btn" data-field="tax_liens" data-val="Yes">Yes / Sí</div>
+              <div class="radio-btn" data-field="tax_liens" data-val="No">No</div>
+            </div>
+            <input type="hidden" name="tax_liens">
+          </div>
+          <div class="field">
+            <label>Date Business Started <span class="req">*</span><br><span class="bi">Fecha De Inicio Del Negocio</span></label>
+            <input type="date" name="date_started" required>
+          </div>
+          <div class="field">
+            <label>Length of Ownership<br><span class="bi">Tiempo Con El Negocio</span></label>
+            <input type="text" name="length_ownership" placeholder="e.g. 3 years">
+          </div>
+          <div class="field">
+            <label>Business Seasonal?<br><span class="bi">¿Es De Temporada?</span></label>
+            <div class="radio-row">
+              <div class="radio-btn" data-field="seasonal" data-val="Yes">Yes / Sí</div>
+              <div class="radio-btn" data-field="seasonal" data-val="No">No</div>
+            </div>
+            <input type="hidden" name="seasonal">
+          </div>
+          <div class="field">
+            <label>Number of Locations<br><span class="bi">Número De Localidades</span></label>
+            <input type="number" name="num_locations" placeholder="1" min="1">
+          </div>
+          <div class="field">
+            <label>Website / Página Web</label>
+            <input type="url" name="website" placeholder="https://www.yourbusiness.com">
+          </div>
+          <div class="field">
+            <label>Email / Correo Electrónico <span class="req">*</span></label>
+            <input type="email" name="email" required placeholder="owner@business.com">
+          </div>
+          <div class="field">
+            <label>Business For Sale?<br><span class="bi">¿El Negocio Está En Venta?</span></label>
+            <div class="radio-row">
+              <div class="radio-btn" data-field="for_sale" data-val="Yes">Yes / Sí</div>
+              <div class="radio-btn" data-field="for_sale" data-val="No">No</div>
+            </div>
+            <input type="hidden" name="for_sale">
+          </div>
+          <div class="field">
+            <label>Currently in Bankruptcy?<br><span class="bi">¿En Bancarrota?</span></label>
+            <div class="radio-row">
+              <div class="radio-btn" data-field="bankruptcy" data-val="Yes">Yes / Sí</div>
+              <div class="radio-btn" data-field="bankruptcy" data-val="No">No</div>
+            </div>
+            <input type="hidden" name="bankruptcy">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Entity Type / Tipo De Entidad</div>
+        <div class="radio-row" id="entity_row">
+          <div class="radio-btn" data-field="entity_type" data-val="Sole Proprietor">Sole Proprietor<br><span style="font-size:10px;font-weight:400">Solo Propietario</span></div>
+          <div class="radio-btn" data-field="entity_type" data-val="Partnership">Partnership<br><span style="font-size:10px;font-weight:400">Asociado</span></div>
+          <div class="radio-btn" data-field="entity_type" data-val="Corporation">Corporation<br><span style="font-size:10px;font-weight:400">Corporación</span></div>
+          <div class="radio-btn" data-field="entity_type" data-val="LLC">LLC</div>
+          <div class="radio-btn" data-field="entity_type" data-val="Other">Other / Otro</div>
+        </div>
+        <input type="hidden" name="entity_type">
+        <div class="field-grid col-2" style="margin-top:16px">
+          <div class="field">
+            <label>Type of Business <span class="req">*</span><br><span class="bi">Tipo De Negocio</span></label>
+            <input type="text" name="business_type" placeholder="e.g. Restaurant, Retail, Construction" required>
+          </div>
+          <div class="field">
+            <label>Products / Services Sold<br><span class="bi">Productos O Servicios Que Provee</span></label>
+            <input type="text" name="product_service" placeholder="Describe your main products/services">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="btn-next" onclick="goTo(1)">Continue to Ownership Info →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 2: OWNERSHIP
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="form-section" id="section-1">
+      <div class="section-heading">
+        <h2>Merchant / Owner Information</h2>
+        <div class="bilingual">Información Personal Del Cliente</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Primary Owner / Propietario Principal</div>
+        <div class="field-grid col-3">
+          <div class="field" style="grid-column:span 2">
+            <label>Owner / Officer Name <span class="req">*</span><br><span class="bi">Nombre Del Cliente</span></label>
+            <input type="text" name="owner1_name" required>
+          </div>
+          <div class="field">
+            <label>Title / Título</label>
+            <input type="text" name="owner1_title" placeholder="CEO, Owner...">
+          </div>
+        </div>
+        <div class="field-grid col-4" style="margin-top:14px">
+          <div class="field" style="grid-column:span 2">
+            <label>Home Address<br><span class="bi">Dirección De Su Casa</span></label>
+            <input type="text" name="owner1_address">
+          </div>
+          <div class="field">
+            <label>City / Ciudad</label>
+            <input type="text" name="owner1_city">
+          </div>
+          <div class="field">
+            <label>State / Estado</label>
+            <select name="owner1_state">
+              <option value="">--</option>
+              <option>AL</option><option>AK</option><option>AZ</option><option>AR</option>
+              <option>CA</option><option>CO</option><option>CT</option><option>DE</option>
+              <option>FL</option><option>GA</option><option>HI</option><option>ID</option>
+              <option>IL</option><option>IN</option><option>IA</option><option>KS</option>
+              <option>KY</option><option>LA</option><option>ME</option><option>MD</option>
+              <option>MA</option><option>MI</option><option>MN</option><option>MS</option>
+              <option>MO</option><option>MT</option><option>NE</option><option>NV</option>
+              <option>NH</option><option>NJ</option><option>NM</option><option>NY</option>
+              <option>NC</option><option>ND</option><option>OH</option><option>OK</option>
+              <option>OR</option><option>PA</option><option>RI</option><option>SC</option>
+              <option>SD</option><option>TN</option><option>TX</option><option>UT</option>
+              <option>VT</option><option>VA</option><option>WA</option><option>WV</option>
+              <option>WI</option><option>WY</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-grid col-4" style="margin-top:14px">
+          <div class="field">
+            <label>ZIP / Código Postal</label>
+            <input type="text" name="owner1_zip" maxlength="10">
+          </div>
+          <div class="field">
+            <label>SSN <span class="req">*</span><br><span class="bi">Número De Seguro Social</span></label>
+            <input type="text" name="owner1_ssn" placeholder="XXX-XX-XXXX" required>
+            <div class="hint">Encrypted &amp; secured</div>
+          </div>
+          <div class="field">
+            <label>Date of Birth<br><span class="bi">Fecha De Nacimiento</span></label>
+            <input type="date" name="owner1_dob">
+          </div>
+          <div class="field">
+            <label>Ownership % / Dueño%</label>
+            <input type="number" name="owner1_pct" placeholder="100" min="1" max="100">
+          </div>
+        </div>
+        <div class="field-grid col-2" style="margin-top:14px">
+          <div class="field">
+            <label>Home Phone / Casa</label>
+            <input type="tel" name="owner1_home_phone" placeholder="(555) 000-0000">
+          </div>
+          <div class="field">
+            <label>Cell Phone / Celular</label>
+            <input type="tel" name="owner1_cell" placeholder="(555) 000-0000">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Partner Information (if ownership &lt; 50%) / Información Del Socio</div>
+        <div class="field-grid col-3">
+          <div class="field" style="grid-column:span 2">
+            <label>Partner / Officer Name<br><span class="bi">Nombre Del Socio</span></label>
+            <input type="text" name="owner2_name">
+          </div>
+          <div class="field">
+            <label>Title / Título</label>
+            <input type="text" name="owner2_title">
+          </div>
+        </div>
+        <div class="field-grid col-4" style="margin-top:14px">
+          <div class="field" style="grid-column:span 2">
+            <label>Home Address / Dirección</label>
+            <input type="text" name="owner2_address">
+          </div>
+          <div class="field">
+            <label>City / Ciudad</label>
+            <input type="text" name="owner2_city">
+          </div>
+          <div class="field">
+            <label>State / Estado</label>
+            <select name="owner2_state">
+              <option value="">--</option>
+              <option>AL</option><option>AK</option><option>AZ</option><option>AR</option>
+              <option>CA</option><option>CO</option><option>CT</option><option>FL</option>
+              <option>GA</option><option>IL</option><option>IN</option><option>MI</option>
+              <option>MN</option><option>MO</option><option>NV</option><option>NJ</option>
+              <option>NY</option><option>NC</option><option>OH</option><option>OK</option>
+              <option>OR</option><option>PA</option><option>TX</option><option>UT</option>
+              <option>VA</option><option>WA</option><option>WI</option><option>WY</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-grid col-4" style="margin-top:14px">
+          <div class="field">
+            <label>ZIP / Código Postal</label>
+            <input type="text" name="owner2_zip" maxlength="10">
+          </div>
+          <div class="field">
+            <label>SSN / Número De Seguro Social</label>
+            <input type="text" name="owner2_ssn" placeholder="XXX-XX-XXXX">
+          </div>
+          <div class="field">
+            <label>Date of Birth / Nacimiento</label>
+            <input type="date" name="owner2_dob">
+          </div>
+          <div class="field">
+            <label>Ownership % / Dueño%</label>
+            <input type="number" name="owner2_pct" min="1" max="100">
+          </div>
+        </div>
+        <div class="field-grid col-2" style="margin-top:14px">
+          <div class="field">
+            <label>Home Phone / Casa</label>
+            <input type="tel" name="owner2_home_phone" placeholder="(555) 000-0000">
+          </div>
+          <div class="field">
+            <label>Cell Phone / Celular</label>
+            <input type="tel" name="owner2_cell" placeholder="(555) 000-0000">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="btn-back" onclick="goTo(0)">← Back</button>
+        <button type="button" class="btn-next" onclick="goTo(2)">Continue to Property Info →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 3: PROPERTY
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="form-section" id="section-2">
+      <div class="section-heading">
+        <h2>Business Property Information</h2>
+        <div class="bilingual">Información De La Propiedad Del Negocio</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Landlord / Mortgage / Arrendador O Banco</div>
+        <div class="field-grid col-2">
+          <div class="field">
+            <label>Landlord or Mortgage Bank<br><span class="bi">Arrendador Del Negocio O Banco</span></label>
+            <input type="text" name="landlord_bank" placeholder="Name of landlord or lender">
+          </div>
+          <div class="field">
+            <label>Contact Name and/or Account #<br><span class="bi">Nombre De Contacto O Número De Cuenta</span></label>
+            <input type="text" name="landlord_contact">
+          </div>
+          <div class="field">
+            <label>Phone # / Número De Teléfono</label>
+            <input type="tel" name="landlord_phone" placeholder="(555) 000-0000">
+          </div>
+          <div class="field">
+            <label>Time Remaining on Lease<br><span class="bi">Tiempo Que Le Queda De Contrato</span></label>
+            <input type="text" name="lease_remaining" placeholder="e.g. 18 months">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="btn-back" onclick="goTo(1)">← Back</button>
+        <button type="button" class="btn-next" onclick="goTo(3)">Continue to Trade References →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 4: TRADE REFERENCES
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="form-section" id="section-3">
+      <div class="section-heading">
+        <h2>Business Trade References</h2>
+        <div class="bilingual">Referencias De Negocios</div>
+        <p class="desc">Please list at least 3 trade suppliers. / Por favor liste al menos 3 proveedores.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Reference 1</div>
+        <div class="field-grid col-3">
+          <div class="field">
+            <label>Business Name / Nombre Del Negocio</label>
+            <input type="text" name="ref1_name">
+          </div>
+          <div class="field">
+            <label>Contact / Acct # / Fax</label>
+            <input type="text" name="ref1_contact">
+          </div>
+          <div class="field">
+            <label>Phone / Teléfono</label>
+            <input type="tel" name="ref1_phone" placeholder="(555) 000-0000">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Reference 2</div>
+        <div class="field-grid col-3">
+          <div class="field">
+            <label>Business Name / Nombre Del Negocio</label>
+            <input type="text" name="ref2_name">
+          </div>
+          <div class="field">
+            <label>Contact / Acct # / Fax</label>
+            <input type="text" name="ref2_contact">
+          </div>
+          <div class="field">
+            <label>Phone / Teléfono</label>
+            <input type="tel" name="ref2_phone" placeholder="(555) 000-0000">
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Reference 3</div>
+        <div class="field-grid col-3">
+          <div class="field">
+            <label>Business Name / Nombre Del Negocio</label>
+            <input type="text" name="ref3_name">
+          </div>
+          <div class="field">
+            <label>Contact / Acct # / Fax</label>
+            <input type="text" name="ref3_contact">
+          </div>
+          <div class="field">
+            <label>Phone / Teléfono</label>
+            <input type="tel" name="ref3_phone" placeholder="(555) 000-0000">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="btn-back" onclick="goTo(2)">← Back</button>
+        <button type="button" class="btn-next" onclick="goTo(4)">Continue to Processing Info →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 5: CREDIT CARD PROCESSING
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="form-section" id="section-4">
+      <div class="section-heading">
+        <h2>Other Information / Credit Card Processing</h2>
+        <div class="bilingual">Otras Informaciones / Procesamiento De Tarjetas</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Credit Card Processing / Procesamiento De Tarjetas De Crédito</div>
+        <div class="field-grid col-2">
+          <div class="field">
+            <label>Terminal / Software Model<br><span class="bi">Modelo De Su Máquina Procesadora</span></label>
+            <input type="text" name="cc_terminal" placeholder="e.g. Clover, Square, Verifone">
+          </div>
+          <div class="field">
+            <label>Number of Terminals<br><span class="bi">Número De Terminales</span></label>
+            <input type="number" name="num_terminals" placeholder="1" min="0">
+          </div>
+          <div class="field">
+            <label>Average Monthly Volume<br><span class="bi">Promedio Mensual</span></label>
+            <input type="text" name="monthly_volume" placeholder="e.g. $25,000">
+          </div>
+          <div class="field">
+            <label>Current CC Processor<br><span class="bi">Compañía Que Le Procesa La Tarjeta</span></label>
+            <input type="text" name="cc_processor" placeholder="e.g. Stripe, PayPal, First Data">
+          </div>
+          <div class="field">
+            <label>Time with Current Processor<br><span class="bi">Tiempo Con Su Compañía De Tarjeta</span></label>
+            <input type="text" name="time_processor" placeholder="e.g. 2 years">
+          </div>
+        </div>
+        <div style="margin-top:16px">
+          <label style="font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;display:block;margin-bottom:10px;">Payment Types Accepted / Usted Acepta (circle all that apply)</label>
+          <div class="checkbox-row">
+            <label class="cb-item"><input type="checkbox" name="accepts_visa" value="Yes"><span>VISA / Mastercard</span></label>
+            <label class="cb-item"><input type="checkbox" name="accepts_amex" value="Yes"><span>AMEX</span></label>
+            <label class="cb-item"><input type="checkbox" name="accepts_discover" value="Yes"><span>Discover</span></label>
+            <label class="cb-item"><input type="checkbox" name="accepts_debit" value="Yes"><span>Debit / Débito</span></label>
+            <label class="cb-item"><input type="checkbox" name="accepts_ebt" value="Yes"><span>EBT</span></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="btn-back" onclick="goTo(3)">← Back</button>
+        <button type="button" class="btn-next" onclick="goTo(5)">Continue to Advance Request →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 6: ADVANCE REQUEST
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="form-section" id="section-5">
+      <div class="section-heading">
+        <h2>Advance Request</h2>
+        <div class="bilingual">Adelanto Requerido</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Funding Request / Solicitud De Fondos</div>
+        <div class="field-grid col-2">
+          <div class="field">
+            <label>Requested Advance Amount <span class="req">*</span><br><span class="bi">Monto Del Adelanto Requerido</span></label>
+            <input type="text" name="requested_amount" placeholder="e.g. $50,000" required>
+          </div>
+          <div class="field">
+            <label>Funding Type / Tipo De Fondeo</label>
+            <div class="radio-row">
+              <div class="radio-btn" data-field="funding_type" data-val="Split Funds">Split Funds</div>
+              <div class="radio-btn" data-field="funding_type" data-val="ACH">ACH</div>
+            </div>
+            <input type="hidden" name="funding_type">
+          </div>
+          <div class="field">
+            <label>Prior/Current Cash Advance Company<br><span class="bi">Anterior / Compañía Actual De Adelanto</span></label>
+            <input type="text" name="prior_advance_company" placeholder="If applicable">
+          </div>
+          <div class="field">
+            <label>Current Balance / Balance<br><span class="bi">Balance Actual</span></label>
+            <input type="text" name="prior_balance" placeholder="$0">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="btn-back" onclick="goTo(4)">← Back</button>
+        <button type="button" class="btn-next" onclick="goTo(6)">Continue to Authorization →</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════
+         SECTION 7: AUTHORIZATION & SIGNATURE
+    ═══════════════════════════════════════════════════════════ -->
+    <div class="form-section" id="section-6">
+      <div class="section-heading">
+        <h2>General Authorization &amp; Signature</h2>
+        <div class="bilingual">Autorización General Y Firma</div>
+      </div>
+
+      <div class="legal-box">
+        <p><strong>Applicant Authorization:</strong> Applicant authorizes Atlas Energy Capital, its assigns, agents, banks or financial institutions to obtain an investigative or consumer report from a credit bureau or a credit agency and to investigate the references given on any other statement or data from the applicant. Atlas Energy Capital is not a bank, the promoted products are provided through a third party.</p>
+        <p><strong>Autorización Del Aplicante:</strong> El aplicante autoriza a Atlas Energy Capital, sus agentes, bancos o cualquier institución financiera a obtener un reporte investigativo de consumo de crédito y a investigar las referencias dadas por el aplicante en cualquier aplicación dada por el aplicante. Atlas Energy Capital no es un banco, los productos promocionados se proveen a través de un tercero.</p>
+        <p style="margin-top:10px"><strong>General Authorization:</strong> I/we hereby authorize the release of any and all information pertaining to my/our business as requested by Atlas Energy Capital or any of their affiliates. I/we attest that the information submitted in this application is correct to the best of my/our knowledge.</p>
+        <p style="margin-top:10px"><strong>Fees:</strong> Atlas Energy Capital charges an application fee of $150 and a consulting fee of $600. The client is waived from both fees as long as the client accepts an issued offer, or if the client is declined by the funding source.</p>
+        <p style="margin-top:10px"><strong>Products:</strong> The products offered by Atlas Energy Capital can be either Business Loans or Advances. These products are not consumer loans. Business funding provided by third parties is subject to lender approval.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Owner / Principal 1 — Signature</div>
+        <div class="field-grid col-3">
+          <div class="field" style="grid-column:span 2">
+            <label>Print Name <span class="req">*</span><br><span class="bi">Nombre En Letra De Imprenta</span></label>
+            <input type="text" name="owner1_print_name" required>
+          </div>
+          <div class="field">
+            <label>Date / Fecha <span class="req">*</span></label>
+            <input type="date" name="owner1_date" required>
+          </div>
+        </div>
+        <div style="margin-top:14px">
+          <label style="font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;display:block;margin-bottom:6px;">Signature / Firma <span style="color:var(--red)">*</span></label>
+          <div class="sig-area">
+            <canvas class="sig-canvas" id="sig1" width="800" height="120"></canvas>
+            <div class="sig-controls">
+              <button type="button" class="sig-clear" onclick="clearSig('sig1','owner1_signature')">Clear / Borrar</button>
+              <span style="font-size:10px;color:var(--muted);margin-left:6px;align-self:center;">Draw your signature above</span>
+            </div>
+          </div>
+          <input type="hidden" name="owner1_signature" id="owner1_signature">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Owner / Principal 2 — Signature (if applicable)</div>
+        <div class="field-grid col-3">
+          <div class="field" style="grid-column:span 2">
+            <label>Print Name<br><span class="bi">Nombre En Letra De Imprenta</span></label>
+            <input type="text" name="owner2_print_name">
+          </div>
+          <div class="field">
+            <label>Date / Fecha</label>
+            <input type="date" name="owner2_date">
+          </div>
+        </div>
+        <div style="margin-top:14px">
+          <label style="font-size:10px;font-weight:600;color:var(--muted);letter-spacing:0.08em;text-transform:uppercase;display:block;margin-bottom:6px;">Signature / Firma</label>
+          <div class="sig-area">
+            <canvas class="sig-canvas" id="sig2" width="800" height="120"></canvas>
+            <div class="sig-controls">
+              <button type="button" class="sig-clear" onclick="clearSig('sig2','owner2_signature')">Clear / Borrar</button>
+            </div>
+          </div>
+          <input type="hidden" name="owner2_signature" id="owner2_signature">
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Business Confirmation / Confirmación Del Negocio</div>
+        <div class="field-grid col-1">
+          <div class="field">
+            <label>Business Name / Nombre Del Negocio</label>
+            <input type="text" name="auth_business_name">
+          </div>
+          <div class="field">
+            <label>Business Address / Dirección Del Negocio</label>
+            <input type="text" name="auth_business_address">
+          </div>
+          <div class="field">
+            <label>Business Phone / Teléfono Del Negocio</label>
+            <input type="tel" name="auth_business_phone" placeholder="(555) 000-0000">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-nav">
+        <button type="button" class="btn-back" onclick="goTo(5)">← Back</button>
+        <button type="submit" class="btn-submit" id="submit-btn">
+          <span class="btn-text">Submit Application / Enviar Solicitud ✓</span>
+          <span class="spinner"></span>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!-- SUCCESS STATE -->
+  <div class="success-wrap" id="success-wrap">
+    <div class="success-icon">✓</div>
+    <h2 class="success-h">Application Submitted!</h2>
+    <p class="success-p">Thank you. Your Flex-Cash-Advance application has been received by Atlas Energy Capital. Our underwriting team will review your file and reach out within 24 hours.</p>
+    <div class="success-ref" id="success-ref">Reference #: —</div>
+    <p class="success-next">
+      To complete your file, please email your last <strong>3 months of business bank statements</strong> to:<br>
+      <a href="mailto:info@atlasenergycapital.com" style="color:var(--gold)">info@atlasenergycapital.com</a><br><br>
+      Questions? Call us at <a href="tel:8888282858" style="color:var(--gold)">888.828.2858</a>
+    </p>
+  </div>
+</main>
+
+<footer>
+  <p>Atlas Energy Capital &bull; 30 N Gould Street Suite R, Sheridan, WY 82801 &bull; <a href="tel:8888282858">888.828.2858</a> &bull; <a href="https://www.AtlasEnergyCapital.com">AtlasEnergyCapital.com</a></p>
+  <p style="margin-top:6px">The products offered by Atlas Energy Capital can be either Business Loans or Advances. These products are not consumer loans. Atlas Energy Capital is not a bank or lending institution; all funding services are offered through third parties.</p>
+</footer>
+
+<script>
+// ── STEP NAVIGATION ────────────────────────────────────────────────
+let currentStep = 0;
+const totalSteps = 7;
+
+function goTo(step) {
+  document.getElementById('section-' + currentStep).classList.remove('active');
+  document.querySelectorAll('.step-tab')[currentStep].classList.remove('active');
+  document.querySelectorAll('.step-tab')[currentStep].classList.add('done');
+  currentStep = step;
+  document.getElementById('section-' + currentStep).classList.add('active');
+  document.querySelectorAll('.step-tab').forEach((t, i) => {
+    t.classList.remove('active');
+    if (i === currentStep) t.classList.add('active');
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('.step-tab').forEach((tab, i) => {
+  tab.addEventListener('click', () => goTo(i));
+});
+
+// ── RADIO BUTTONS ────────────────────────────────────────────────
+document.querySelectorAll('.radio-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    const field = this.dataset.field;
+    const val = this.dataset.val;
+    document.querySelectorAll(`.radio-btn[data-field="${field}"]`).forEach(b => b.classList.remove('sel'));
+    this.classList.add('sel');
+    const hidden = document.querySelector(`input[name="${field}"]`);
+    if (hidden) hidden.value = val;
+  });
+});
+
+// ── SIGNATURE PADS ───────────────────────────────────────────────
+function initCanvas(id, hiddenId) {
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  ctx.strokeStyle = '#c9a84c';
+  ctx.lineWidth = 2.5;
+  ctx.lineCap = 'round';
+  let drawing = false;
+
+  function pos(e) {
+    const r = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / r.width;
+    const scaleY = canvas.height / r.height;
+    const src = e.touches ? e.touches[0] : e;
+    return { x: (src.clientX - r.left) * scaleX, y: (src.clientY - r.top) * scaleY };
+  }
+
+  canvas.addEventListener('mousedown', e => { drawing = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); });
+  canvas.addEventListener('mousemove', e => { if (!drawing) return; const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); });
+  canvas.addEventListener('mouseup', () => { drawing = false; saveCanvas(canvas, hiddenId); });
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); }, { passive: false });
+  canvas.addEventListener('touchmove', e => { e.preventDefault(); if (!drawing) return; const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); }, { passive: false });
+  canvas.addEventListener('touchend', () => { drawing = false; saveCanvas(canvas, hiddenId); });
+}
+
+function saveCanvas(canvas, hiddenId) {
+  document.getElementById(hiddenId).value = canvas.toDataURL('image/png');
+}
+
+function clearSig(canvasId, hiddenId) {
+  const canvas = document.getElementById(canvasId);
+  canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+  document.getElementById(hiddenId).value = '';
+}
+
+initCanvas('sig1', 'owner1_signature');
+initCanvas('sig2', 'owner2_signature');
+
+// ── FORM SUBMISSION (JSONP for Safari compatibility) ──────────────
+document.getElementById('app-form').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById('submit-btn');
+  btn.classList.add('submitting');
+  btn.disabled = true;
+
+  // Capture signature canvases
+  ['sig1', 'sig2'].forEach((id, i) => {
+    const canvas = document.getElementById(id);
+    const hiddenId = i === 0 ? 'owner1_signature' : 'owner2_signature';
+    if (canvas) saveCanvas(canvas, hiddenId);
+  });
+
+  const formData = new FormData(this);
+
+  // Also send to Apps Script backend
+  const scriptUrl = 'https://script.google.com/macros/s/AKfycbwRghMJQ3PZjUawQVRjHp0SAAGBjjwoBpSI_wMclE5BY7nxyLphT3Z7zuvOSGiqx6gz/exec'; // ← replace after deploying Apps Script
+  const payload = {};
+  formData.forEach((v, k) => { payload[k] = v; });
+  payload['submission_time'] = new Date().toISOString();
+  payload['ref'] = 'AEC-' + Date.now().toString(36).toUpperCase().slice(-8);
+
+  try {
+    // Submit to Netlify
+    await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(formData).toString()
+    });
+
+    // Submit to Apps Script via JSONP (Safari-safe)
+    if (scriptUrl) {
+      await new Promise((resolve) => {
+        const cbName = 'cb_' + Date.now();
+        window[cbName] = () => { delete window[cbName]; resolve(); };
+        const s = document.createElement('script');
+        s.src = scriptUrl + '?callback=' + cbName + '&data=' + encodeURIComponent(JSON.stringify(payload));
+        document.body.appendChild(s);
+        setTimeout(resolve, 5000); // fallback timeout
+      });
+    }
+
+    // Show success
+    document.getElementById('app-form').style.display = 'none';
+    document.querySelector('.progress-bar-wrap').style.display = 'none';
+    const sw = document.getElementById('success-wrap');
+    sw.style.display = 'block';
+    document.getElementById('success-ref').textContent = 'Reference #: ' + payload['ref'];
+
+  } catch (err) {
+    btn.classList.remove('submitting');
+    btn.disabled = false;
+    alert('Submission error. Please try again or call 888.828.2858');
+  }
+});
+</script>
+</body>
+</html>
